@@ -21,7 +21,6 @@ def respond(data: dict, status: int = 0):
     sys.exit(status)
 
 
-# === Load env and validate ===
 load_dotenv(".env.local")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
@@ -42,7 +41,6 @@ if not GROQ_API_KEY:
     log("ERROR", "Missing GROQ_API_KEY")
     respond({"error": "Missing GROQ_API_KEY"}, 1)
 
-# === Decrypt ===
 try:
     log("DECRYPT", "Starting decryption...")
     with open(enc_path, "rb") as f:
@@ -55,7 +53,6 @@ except Exception as e:
     log("DECRYPT", f"Decryption failed: {str(e)}")
     respond({"error": "Decryption error"}, 1)
 
-# === RAG ===
 try:
     log("RAG", "Splitting and embedding...")
     chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)\
